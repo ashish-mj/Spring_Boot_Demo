@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -32,6 +34,13 @@ public class ProductController {
 	
 	@RequestMapping
 	public List<Product> display() {
+		return service.getProducts();
+	}
+	
+    @RequestMapping(method = RequestMethod.POST)
+	public List<Product> AddProduct(@RequestBody Product p) {
+		List<Product> list=service.getProducts();
+		list.add(p);
 		return service.getProducts();
 	}
 	
