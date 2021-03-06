@@ -3,6 +3,7 @@ package com.rakuten.Spring_Boot;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,6 +34,15 @@ public class ProductController {
 	public List<Product> display() {
 		return service.getProducts();
 	}
+	
+	@RequestMapping(value="/id/{pid}",produces = "application/json")
+	public Product displayById(@PathVariable int pid) {
+		List<Product> list=service.getProducts();
+		Product product=list.stream().
+				filter(p->p.getProductId()==pid).findFirst().get();
+		return product;
+	}
+
 	
 	
 
