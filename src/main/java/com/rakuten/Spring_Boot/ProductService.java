@@ -1,13 +1,16 @@
 package com.rakuten.Spring_Boot;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 //import javax.xml.bind.annotation.XmlRootElement;
 
 
-
+@Service
 public class ProductService {
-private List<Product> product;
+private List<Product> product=new ArrayList<Product>();
 {
 	Product p1=new Product(1,"Fastrack",2000);
 	Product p2=new Product(2,"TV",40000);
@@ -20,5 +23,9 @@ private List<Product> product;
 	product.add(p4);
 	product.add(p5);
 	
+}
+
+public List <Product> getProducts(){
+  return this.product;
 }
 }

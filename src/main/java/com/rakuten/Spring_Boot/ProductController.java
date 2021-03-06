@@ -1,10 +1,17 @@
 package com.rakuten.Spring_Boot;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/product")
 public class ProductController {
+	
+	@Autowired
+	private ProductService service;
 	
 	@RequestMapping("/test")
 	public String test() {
@@ -21,5 +28,12 @@ public class ProductController {
 		return p;
 		
 	}
+	
+	@RequestMapping
+	public List<Product> display() {
+		return service.getProducts();
+	}
+	
+	
 
 }
