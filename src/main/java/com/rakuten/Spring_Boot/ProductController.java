@@ -18,7 +18,6 @@ public class ProductController {
 		p.setProductId(1);
 		p.setProductName("Phone");
 		p.setPrice(10000f);
-		p.setRatings(4.25f);
 		return p;
 		
 	}

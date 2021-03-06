@@ -1,12 +1,21 @@
 package com.rakuten.Spring_Boot;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Product {
 private int productId;
 private String productName;
 private float price;
-private float ratings;
+
 
 Product(){
+}
+
+Product(int id,String name,float price){
+	this.productId=id;
+	this.productName=name;
+	this.price=price;
 }
 
 public int getProductId() {
@@ -27,10 +36,5 @@ public float getPrice() {
 public void setPrice(float price) {
 	this.price = price;
 }
-public float getRatings() {
-	return ratings;
-}
-public void setRatings(float ratings) {
-	this.ratings = ratings;
-}
+
 }
