@@ -11,6 +11,16 @@ public class ProductController {
 		return "Welcome Client";
 	}
 	
-	
+	@RequestMapping("/sample")
+	public Product sample() {
+		
+		Product p=new Product();
+		p.setProductId(1);
+		p.setProductName("Phone");
+		p.setPrice(10000f);
+		p.setRatings(4.25f);
+		return p;
+		
+	}
 
 }
