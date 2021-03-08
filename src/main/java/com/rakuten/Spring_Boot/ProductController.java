@@ -32,25 +32,32 @@ public class ProductController {
 		
 	}
 	
-	@RequestMapping
-	public List<Product> display() {
-		return service.getProducts();
-	}
 	
-    @RequestMapping(method = RequestMethod.POST)
-	public List<Product> AddProduct(@RequestBody Product p) {
+	@RequestMapping(value="/id/{pid}",produces = {"application/xml","application/json"})
+	public Product getProductById(@PathVariable int pid) {
 		List<Product> list=service.getProducts();
-		list.add(p);
-		return service.getProducts();
-	}
-	
-	@RequestMapping(value="/id/{pid}",produces = "application/json")
-	public Product displayById(@PathVariable int pid) {
-		List<Product> list=service.getProducts();
-		Product product=list.stream().
-				filter(p->p.getProductId()==pid).findFirst().get();
+		Product product=list.stream().filter(p->p.getProductId()==pid).findFirst().get();
 		return product;
 	}
+	@RequestMapping(method = RequestMethod.POST,consumes= {"application/xml","application/json"},
+	produces = {"application/xml","application/json"})
+	public List<Product> addProduct(@RequestBody Product p){
+		List<Product> list=service.getProducts();
+		list.add(p);
+		return list;
+		
+	}
+	
+	@RequestMapping(produces = "application/xml")
+	public ProductEntity getAllProducts(){
+		ProductEntity pe=new ProductEntity();
+		
+		pe.setList(service.getProducts());
+		return pe;
+	}
+	
+	
+	
 	@RequestMapping("/id/{pid}/reviews")
 	public List<Review> getReviewsForProduct(@PathVariable int pid) {
 		List<Product> list=service.getProducts();
