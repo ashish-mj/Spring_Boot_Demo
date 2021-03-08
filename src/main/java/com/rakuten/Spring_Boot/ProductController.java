@@ -51,7 +51,20 @@ public class ProductController {
 				filter(p->p.getProductId()==pid).findFirst().get();
 		return product;
 	}
-
+	@RequestMapping("/id/{pid}/reviews")
+	public List<Review> getReviewsForProduct(@PathVariable int pid) {
+		List<Product> list=service.getProducts();
+		Product product=list.stream().filter(p->p.getProductId()==pid).findFirst().get();
+		return product.getReviewList();
+	}
+	@RequestMapping("/id/{pid}/reviews/review/{rid}")
+	public Review getReviewsById(@PathVariable int pid, @PathVariable("rid") int reviewId) {
+		List<Product> list=service.getProducts();
+		Product product=list.stream().filter(p->p.getProductId()==pid).findFirst().get();
+		List<Review> reviews= product.getReviewList();
+		Review review=reviews.stream().filter(r->r.getRevId()==reviewId).findFirst().get();
+		return review;
+	}
 	
 	
 
