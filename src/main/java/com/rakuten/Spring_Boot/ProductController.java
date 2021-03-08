@@ -1,8 +1,11 @@
 package com.rakuten.Spring_Boot;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,27 +36,31 @@ public class ProductController {
 	}
 	
 	
-	@RequestMapping(value="/id/{pid}",produces = {"application/xml","application/json"})
-	public Product getProductById(@PathVariable int pid) {
-		List<Product> list=service.getProducts();
-		Product product=list.stream().filter(p->p.getProductId()==pid).findFirst().get();
-		return product;
-	}
-	@RequestMapping(method = RequestMethod.POST,consumes= {"application/xml","application/json"},
-	produces = {"application/xml","application/json"})
-	public List<Product> addProduct(@RequestBody Product p){
-		List<Product> list=service.getProducts();
-		list.add(p);
-		return list;
-		
-	}
-	
-	@RequestMapping(produces = "application/xml")
-	public ProductEntity getAllProducts(){
+	@RequestMapping(produces = {"application/xml","application/json"})
+	public ResponseEntity<ProductEntity> getAllProducts(){
 		ProductEntity pe=new ProductEntity();
 		
 		pe.setList(service.getProducts());
-		return pe;
+		ResponseEntity<ProductEntity> re=new ResponseEntity<ProductEntity>(pe, HttpStatus.OK);
+		return re;
+	}
+	@RequestMapping(value="/id/{pid}",produces = {"application/xml","application/json"})
+	public Product getProductById(@PathVariable int pid) {
+		List<Product> list=service.getProducts();
+		Optional<Product> optionalProduct=list.stream().filter(p->p.getProductId()==pid).findFirst();
+		if(optionalProduct.isPresent())
+			return optionalProduct.get();
+		else
+			throw new ProductNotFoundException("The product "+pid+" Not Found");
+	}
+	@RequestMapping(method = RequestMethod.POST,consumes= {"application/xml","application/json"},
+	produces = {"application/xml","application/json"})
+	public ResponseEntity<List<Product>> addProduct(@RequestBody Product p){
+		List<Product> list=service.getProducts();
+		list.add(p);
+		ResponseEntity<List<Product>> entity=new ResponseEntity<List<Product>>(list, HttpStatus.OK);
+		return entity;
+		
 	}
 	
 	
